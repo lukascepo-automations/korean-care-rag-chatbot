@@ -1,0 +1,61 @@
+{
+  "name": "Korean Care Order Status",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "koreancare-order-status",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "b1b2c3d4-0002-4000-8000-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [220, 460],
+      "webhookId": "koreancare-order-status"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://koreancare.lt/wp-json/koreancare/v1/order-status",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n  \"Content-Type\": \"application/json\",\n  \"X-Koreancare-Secret\": \"YOUR_API_SECRET\"\n}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"order_number\": \"{{ $json.body.order_number }}\",\n  \"email\": \"{{ $json.body.email }}\",\n  \"amount\": \"{{ $json.body.amount }}\"\n}",
+        "options": {}
+      },
+      "id": "b1b2c3d4-0002-4000-8000-000000000002",
+      "name": "KoreanCare_API_OrderStatus",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 460]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "KoreanCare_API_OrderStatus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "active": false,
+  "meta": {
+    "instanceId": ""
+  }
+}
